@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<!--
+//////////////////////////////////////////////////////////////////////////
+//          WELCOME TO THE SOURCE CODE FOR MY VOCABULARY TRAINER!       //
+//     YOU MAY USE THIS CODE WHEREVER YOU WANT AS LONG AS YOU FOLLOW    //
+// THE ATTRIBUTION RULES AT HTTP://WWW.ODDLLAMA.CU.CC/ATTRIBUTION.HTML. //
+//                               ENJOY!                                 //
+//////////////////////////////////////////////////////////////////////////
+-->
+
+<html lang="en">
+    <head>
+        <meta charset='utf-8'/>
+        <meta name="viewport" content="width=device-width,height=device-height">
+        <title>Vocabulary Trainer</title>
+        <style type="text/css">
+            body {
+                text-align: center;
+            }
+            .item {
+                margin: 0px auto;
+            }
+            #def {
+                border: 1px solid black;
+                padding: 10px 0px;
+            }
+        </style>
+        <script type="text/javascript">
+            Array.prototype.indexOf = function(elt) {
+                var index = this.length
+                while (index-- > 0) if (this[index] === elt) return index
+                return -1
+            }
+            Array.prototype.shuffle = function() {
+                for (var i = this.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var tmp = this[i];
+                    this[i] = this[j];
+                    this[j] = tmp;
+                }
+            }
+            var winLoad = setInterval(function() {
+                if (document.readyState === 'complete') {
+                    begin()
+                    clearInterval(winLoad)
+                }
+            }, 10), dwd, def, ops,
+                defs = 'The item with the number 1./The item with the number 2./The item with the number 3./The item with the number 4./The item with the number 5.'.split('/'),
+                words = '1 llama/2 potatoes/3 sticks of celery/4 alpacas/5 websites'.split('/'),
+                correctAnswer
+            function begin() {
+                dwd = window.innerWidth * 0.9
+                def = byId('def')
+                ops = [byId('b1'), byId('b2'), byId('b3'), byId('b4')]
+                setDivWidths([def].concat(ops))
+                askNewQuestion()
+            }
+            function askNewQuestion() {
+                correctAnswer = Math.floor(Math.random() * defs.length)
+                def.innerHTML += defs[correctAnswer]
+                var copied = words.slice()
+                copied.splice(copied.indexOf(words[correctAnswer]), 1)
+                copied.shuffle()
+                var wi = Math.floor(Math.random() * ops.length)
+                ops[wi].innerHTML = words[correctAnswer]
+                ops[wi].onclick = correct
+                var wrongs = copied.slice(0, ops.length - 1)
+                for (var i = 0; i < wrongs.length; i ++) {
+                    var bi = i < wi ? i : i+1
+                    ops[bi].innerHTML = wrongs[i]
+                    ops[bi].onclick = (function(ch) {
+                        return function() {
+                            wrong(ch)
+                        }
+                    })(wrongs[i])
+                }
+            }
+            function wrong(ch) {
+                message('wrong. The correct answer was ' + words[correctAnswer], ch)
+            }
+            function correct() {
+                message('correct', words[correctAnswer])
+            }
+            function message(x, ch) {
+                def.innerHTML = 'The definition was: ' + defs[correctAnswer] + '<br/>You answered ' + ch + '.<br/>Your answer was ' + x + '!<br/><br/>'
+                askNewQuestion()
+            }
+            function setDivWidths(arr) {
+                for (var i = 0; i < arr.length; i ++) {
+                    arr[i].style.width = dwd+'px'
+                }
+            }
+            function byId(str) { return document.getElementById(str) }
+        </script>
+    </head>
+    <body>
+        <div id='def' class='item'>Welcome to OddLlama's vocabulary trainer!<br/>Choose the word that matches the definition below.<br/><br/></div>
+        <button type='button' class='item' id='b1'>Option 1</button>
+        <button type='button' class='item' id='b2'>Option 2</button>
+        <button type='button' class='item' id='b3'>Option 3</button>
+        <button type='button' class='item' id='b4'>Option 4</button>
+    </body>
+</html>

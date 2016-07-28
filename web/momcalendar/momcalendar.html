@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<script src="lib/jquery-1.11.0.min.js"></script>
+		<script src="lib/jquery.handsontable.full.js"></script>
+		<link rel="stylesheet" media="screen" href="lib/jquery.handsontable.full.css">
+		<script>
+		$(function() {
+			var data = localStorage.__momcalendar_data || (localStorage.__momcalendar_data = [
+				["No.", "Name", "Description", "By", "Deadline"],
+				["1", "Eat pie", "It should be delicious", "Me", "1/1/2000"]
+			]);
+			$("#dataTable").handsontable({
+				data: data,
+				startRows: 6,
+				startCols: 8,
+				afterChange: function (change, source) {
+					if (source == 'loadData') return
+					for (var i = 0; i < change.length; i++) {
+						var x = change[i][1], y = change[i][2], newVal = change[i][4]
+						localStorage.__momcalendar_data[x][y] = newVal
+					}
+				}
+			});
+		})
+		</script>
+	</head>
+	<body>
+		<div id='dataTable'></div>
+	</body>
+</html>

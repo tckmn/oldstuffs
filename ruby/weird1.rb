@@ -1,0 +1,1 @@
+load 'weird2.rb'

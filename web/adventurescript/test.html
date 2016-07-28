@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>AdventureScript!</title>
+        <script type='text/javascript' src='adventurescript.js'></script>
+        <script type='text/javascript'>
+            window.onload = function() {
+                AdventureScript.init(document.getElementById('code').childNodes[0].nodeValue, document.getElementById('container'))
+            }
+        </script>
+    </head>
+    <body>
+        <div id='code'><!--
+            /label main
+            this
+            -----
+            is **my *adventurescript* __code__**
+
+            indeed
+            and
+            # this is a header!!!!!
+            wow
+            much wow
+            \*test escape\*
+            **this *is\** a llama** <sub>\* terms and conditions apply</sub>
+            \*\**\*\**\*\**te\*st\**\*
+            lol \\u yields \u underscore :D
+            /path sub Go to sub
+
+            /label sub
+            this is a sub
+            hooray
+            /embed yaymsg
+            /path sub2 Next sub
+            /path return Back
+
+            /label sub2
+            another!
+            /path return Back
+            /embed yaymsg
+
+            /label yaymsg
+            Yay!
+        --></div>
+        <p>AdventureScript</p>
+        <div id='container'></div>
+    </body>
+</html>

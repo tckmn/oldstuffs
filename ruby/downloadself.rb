@@ -1,0 +1,1 @@
+require'open-uri';puts open('http://codegolf.stackexchange.com/posts/28159/body').read[/req.+;/].sub'amp;','';

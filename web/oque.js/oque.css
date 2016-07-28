@@ -1,0 +1,39 @@
+#question {
+	padding: 5px 0px;
+	margin: 0px;
+	text-align: center;
+	font-family: sans-serif;
+}
+
+.answer {
+	text-align: center;
+	border: 1px solid black;
+	border-radius: 5px;
+	margin: 5px;
+	cursor: pointer;
+	transition: 1s background-color;
+	-webkit-transition: 1s background-color;
+}
+
+#hud {
+	font-size: 50%;
+	font-family: monospace;
+}
+#score {
+	float: left;
+}
+#time {
+	overflow: hidden;
+}
+#timeBar {
+	background-color: black;
+	color: white;
+	width: 100%;
+	transition: 0.125s width linear;
+	-webkit-transition: 0.125s width linear;
+}
+
+.noTransition {
+	transition: none !important;
+	-webkit-transition: none !important;
+}

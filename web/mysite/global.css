@@ -1,0 +1,50 @@
+body {
+    text-align: center;
+    background-color: #C2DFFF;
+}
+.bodyRect {
+    border: 1px solid black;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px; /*IE8 and below: you don't get rounded corners!*/
+    padding: 10px;
+    margin: 10px;
+    background-color: #B4CFEC;
+}
+#navbar {
+    border-bottom: 1px dotted black;
+    margin: 10px;
+    padding: 10px 3px 5px; /*top 10px so that #youarehere fits, bottom 5px so border lines up*/
+    text-align: left;
+}
+#navbar a {
+    text-decoration: none;
+    color: black;
+    background-color: #EEE;
+    border: 1px solid black;
+    border-bottom-style: none;
+    -webkit-border-radius: 10px 10px 0px 0px;
+    -moz-border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px; /*IE8 and below: you don't get rounded corners!*/
+    margin: 5px;
+    padding: 5px 10px;
+    display: inline;
+}
+#navbar a:hover {
+    padding-top: 10px;
+}
+#navbar #youarehere {
+    background-color: #DDD;
+    padding-top: 10px;
+}
+.linkList a {
+    display: block;
+    padding: 5px;
+    margin: 2px auto;
+    border: 1px solid black;
+    width: 20%;
+    background-color: #89CFFF;
+}
+.linkList a:nth-of-type(2n) {
+    background-color: #5DBEFF; /*too bad, IE8, you don't get multicolors :P*/
+}

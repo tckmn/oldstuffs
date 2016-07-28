@@ -1,0 +1,72 @@
+<html><body><canvas id='c'><script>
+var b = document.body;
+var c = document.getElementsByTagName('canvas')[0];
+var a = c.getContext('2d');
+</script><script src='script.js'></script></body></html>
+
+<!--
+
+ORIGINAL CODE:
+var ps = [],
+    w, h, rand = Math.random,
+    big = confirm('Big mode?'),
+
+    psz = big ? 100 : 50,
+    ppf = big ? 3 : 7,
+
+    hpsz = psz / 2
+window.onload = function () {
+    c.height = h = 400
+    c.width = w = 600
+    console.log(w, h)
+    setInterval(tick, 50)
+}
+
+function tick() {
+    a.fillStyle = 'rgba(0,0,0,0.1)'
+    a.fillRect(0, 0, w, h)
+    for (var i = 0; i < ps.length; i++) {
+        var p = ps[i]
+        if (p.update()) {
+            ps.splice(i, 1)
+            i--;
+            continue
+        }
+        var grd = a.createRadialGradient(p.x, p.y, 0, p.x, p.y, psz)
+        grd.addColorStop(0, p.f + p.life + ')')
+        grd.addColorStop(1, 'transparent')
+        a.fillStyle = grd
+        a.fillRect(p.x - psz, p.y - psz, psz * 2, psz * 2)
+    }
+    for (var i = 0; i < ppf; i++) {
+        ps.push(new Particle(
+        rand() * w,
+        h + psz,
+        0,
+        rand() * -20,
+        rand() / 4 - 1 / 8,
+        rand(),
+            'rgba(255,' + (rand() * 255 | 0) + ',' + (rand() * 20 | 0) + ','))
+    }
+}
+
+function Particle(x, y, xv, yv, xvv, yvv, f) {
+    this.x = x
+    this.y = y
+    this.xv = xv
+    this.yv = yv
+    this.xvv = xvv
+    this.yvv = yvv
+    this.life = 1
+    this.f = f
+}
+Particle.prototype.update = function () {
+    this.x += this.xv
+    this.y += this.yv
+    this.xv += this.xvv
+    this.yv += this.yvv
+    this.life -= 0.05
+    return (this.life <= 0)
+}
+
+-->

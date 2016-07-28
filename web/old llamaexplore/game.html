@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
+        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+        <title>Llama Exploration game</title>
+        <link rel="stylesheet" type="text/css" href="gamestyle.css"/>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="b64.js"></script>
+        <script type="text/javascript" src="gamescript.js"></script>
+    </head>
+    <body>
+        <noscript>
+            <p>This game requires Javascript. Click <a href="http://enable-javascript.com/">here</a> to learn how to enable it.</p>
+        </noscript>
+        <div id="loading">Loading...</div>
+        <div id="dungeon" class="invisible">
+            <table><tbody id='t'></tbody></table>
+        </div>
+        <div class="zoom" id="zin" style="top: 0; left: 0;"><img class="zoomimg" src="zin.png" alt="ZOOM IN"/></div>
+        <div class="zoom" id="zout" style="top: 0;"><img class="zoomimg" src="zout.png" alt="ZOOM OUT"/></div>
+        <div class="zoom" id="done" style="left: 0;"><img class="zoomimg" src="done.png" alt="DONE"/></div>
+    </body>
+</html>

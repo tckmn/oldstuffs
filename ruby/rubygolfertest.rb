@@ -1,0 +1,1 @@
+pt %w[this is a test].m(&:v)*' '

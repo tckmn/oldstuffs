@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+	<script type="text/javascript" src="http://craftyjs.com/release/0.4.2/crafty-min.js"></script>
+	<script type="text/javascript">
+
+	$(document).ready(function() {
+		Crafty.init();
+
+		var tilesize = 20
+		Crafty.sprite(20, "sprite.png#UPDATE", {
+			grass1: [0,0,1,3],
+			grass2: [1,0,1,3],
+			grass3: [2,0,1,3],
+			stone1: [3,0,1,3],
+			stone2: [4,0,1,3]
+		});
+
+		genTerrainInit()
+		while(1) {
+			try { stepTerrainGen() }
+			catch(e) { break }
+		}
+
+
+		iso = Crafty.isometric.init(20);
+		var z = 0;
+		for(var i = tdata.length - 1; i >= 0; i--) {
+			for(var y = 0; y < tdata[i].length; y++) {
+				var which = Math.max(0, Math.round(tdata[i][y]))
+				var tile = Crafty.e("2D, DOM, "+["grass1", "grass2", "grass3", "stone1", "stone2"][which])
+				.attr('z',i+1 * y+1)
+				
+				iso.place(i,y,0, tile);
+			}
+		}
+		
+		Crafty.addEvent(this, Crafty.stage.elem, "mousedown", function(e) {
+			if(e.button > 1) return;
+			var base = {x: e.clientX, y: e.clientY};
+
+			function scroll(e) {
+				var dx = base.x - e.clientX,
+					dy = base.y - e.clientY;
+					base = {x: e.clientX, y: e.clientY};
+				Crafty.viewport.x -= dx;
+				Crafty.viewport.y -= dy;
+			};
+
+			Crafty.addEvent(this, Crafty.stage.elem, "mousemove", scroll);
+			Crafty.addEvent(this, Crafty.stage.elem, "mouseup", function() {
+				Crafty.removeEvent(this, Crafty.stage.elem, "mousemove", scroll);
+			});
+		});
+	});
+
+	function genTerrainInit() {
+	    //Variables
+	    size = Math.pow(2, 6) + 1; //MUST be a power of 2 plus 1!
+	    initHeight = 2;
+	    rndRange = 4;
+	    smoothSpeed = 0.5; // lower is faster
+
+	    tdata = new Array(size);
+	    toAverage = new Array(size);
+	    for (var i = 0; i < size; i ++) {
+	        tdata[i] = new Array(size);
+	        toAverage[i] = new Array(size);
+	        for (var i2 = 0; i2 < size; i2 ++) {
+	            tdata[i][i2] = null;
+	            toAverage[i][i2] = false;
+	        }
+	    }
+
+	    //Generate corners
+	    tdata[0][0] = initHeight;
+	    tdata[size-1][0] = initHeight;
+	    tdata[0][size-1] = initHeight;
+	    tdata[size-1][size-1] = initHeight;
+	}
+
+	function stepTerrainGen() {
+	    //The square step - for each square, take the center point and set it to the average of its corners plus a random amount
+	    oldi = 0;
+	    for (var i = 1; i < size; i ++) {
+	        if (tdata[0][i] != null) {
+	            oldi2 = 0;
+	            for (var i2 = 1; i2 < size; i2 ++) {
+	                if (tdata[i2][i] != null) {
+	                    pointDistance = (i - oldi)/2;
+	                    tdata[(oldi2 + i2)/2][(oldi + i)/2] =
+	                    	((tdata[oldi2][oldi] + tdata[i2][oldi] + tdata[oldi2][i] + tdata[i2][i])/4) // average of 4 corners
+	                        + Math.random() * rndRange - (rndRange/2.0);                                // plus a random amount
+
+	                    // Now mark the squares for the diamond step
+	                    toAverage[(oldi2 + i2)/2][oldi] = true;
+	                    toAverage[oldi2][(oldi + i)/2] = true;
+	                    toAverage[(oldi2 + i2)/2][i] = true;
+	                    toAverage[i2][(oldi + i)/2] = true;
+	                    oldi2 = i2;
+	                }
+	            }
+	            oldi = i;
+	        }
+	    }
+
+	    //The diamond step - same as the square step but with newly formed diamonds
+	    for (var i = 0; i < size; i ++) {
+	        for (var i2 = 0; i2 < size; i2 ++) {
+	            if (toAverage[i][i2]) {
+	                diamondArray = [];
+	                if (i-pointDistance >= 0) diamondArray = diamondArray.concat(tdata[i-pointDistance][i2]);
+	                if (i+pointDistance < size) diamondArray = diamondArray.concat(tdata[i+pointDistance][i2]);
+	                if (i2-pointDistance >= 0) diamondArray = diamondArray.concat(tdata[i][i2-pointDistance]);
+	                if (i2+pointDistance < size) diamondArray = diamondArray.concat(tdata[i][i2+pointDistance]);
+	                addedPoints = 0;
+	                for (var i3 = 0; i3 < diamondArray.length; i3 ++) addedPoints += diamondArray[i3];
+	                tdata[i][i2] = addedPoints/diamondArray.length + Math.floor(Math.random() * rndRange - (rndRange/2.0));
+	            }
+	        }
+	    }
+	    rndRange *= smoothSpeed;
+	    resetToAverage();
+	}
+
+	function resetToAverage() {
+	    for (var i = 0; i < size; i ++) {
+	        for (var i2 = 0; i2 < size; i2 ++) {
+	            toAverage[i][i2] = false;
+	        }
+	    }
+	}
+
+	</script>
+	<title>Iso</title>
+	<style>
+	body, html { margin:0; padding: 0; overflow:hidden }
+	</style>
+</head>
+<body>
+</body>
+</html>

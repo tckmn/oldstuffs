@@ -1,0 +1,14 @@
+EM.run {
+ws = Faye::WebSocket::Client.new('ws://sockets.ny.stackexchange.com')
+
+ws.on :open do |event|
+  actions.keys.each{|k| ws.send(k) }
+  #ws.send('155-questions-active')
+end
+
+ws.on :message do |event|
+  msg = JSON.parse event.data
+  data = JSON.parse msg['data']
+  puts "#{msg['action'].scan /\d+/}: #{data['siteBaseHostAddress']}"
+end
+}

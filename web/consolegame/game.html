@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset='utf-8'/>
+        <title></title>
+        <style type="text/css">
+            #tbl {
+                width: 80%;
+                height: 80%;
+            }
+            #output {
+                overflow: auto;
+            }
+            #input {
+                height: 2em;
+            }
+            #output,#input {
+                font-family: monospace;
+                width: 95%;
+                border-style: none;
+                display: block;
+            }
+            #tbl,#output,#input {
+                margin: 0 auto;
+            }
+            .wrapper {
+                width: 100%;
+                border: 1px solid black;
+            }
+            body {
+                margin: 0px;
+            }
+            html,body,#tdc,.wrapper,#output {
+                height: 100%;
+            }
+        </style>
+        <script type="text/javascript">
+            var gmOut, gmIn
+
+            window.onload = function() {
+                gmOut = byId('output'), gmIn = byId('input')
+                gmOut.style.height = gmOut.offsetHeight + 'px'
+                not('Welcome to my game!')
+                not('Please enter a command by typing in the text box below. Type "help" for help, then press enter/return.')
+                gmIn.onkeydown = function(e) {
+                    var c = (typeof e.which == "number") ? e.which : e.keyCode
+                    if (c == 13) {
+                        processCommand(gmIn.value)
+                    }
+                }
+            }
+
+            var cmds = ['help']
+            function processCommand(cmd) {
+                gmIn.value = ''
+                for (var i = 0; i < cmds.length; i ++) {
+                    if (cmds[i] === cmd) {
+                        window[cmd]()
+                        return
+                    }
+                }
+                not('"' + cmd + '" is not a valid command. Please try again.')
+            }
+
+            function gainCommand(cmd, msg) {
+                for (var i = 0; i < cmds.length; i ++) {
+                    if (cmds[i] === cmd) {
+                        return
+                    }
+                }
+                cmds.push(cmd)
+                not(msg)
+            }
+
+            function help() {
+                not('Valid commands you can enter are: ' + cmds.join(', '))
+                gainCommand('llamas', 'You can gain new commands as you play the game. You just earned the "llamas" command! Try it out now!')
+            }
+
+            var pLlamas = [getNewLlama()]
+            function llamas() {
+                var str = 'You have ' + pLlamas.length + ' llama' + (pLlamas.length == 1 ? '' : 's') + '. Here is a list of your llamas:'
+                for (var i = 0; i < pLlamas.length; i ++) {
+                    str += '<br/>Llama #' + (i+1) + ': ' + pLlamas[i].toString()
+                }
+                not(str)
+            }
+
+            function not(str) {
+                gmOut.innerHTML += '<br/>' + str + '<br/>'
+                gmOut.scrollTop = gmOut.scrollHeight
+            }
+
+            function byId(x) {
+                return document.getElementById(x)
+            }
+
+            function getNewLlama() {
+                return {
+                    mwa: function() {
+                        console.log('mwa!')
+                    },
+                    toString: function() {
+                        return 'Llama with ' + this.hp + ' HP'
+                    },
+                    hp: 100
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div style='height:10%'></div>
+        <table id='tbl'>
+            <tr><td id='tdc'>
+                <div class='wrapper'><div id='output'></div></div>
+            </td></tr>
+            <tr><td>
+                <div class='wrapper'><input id='input' type='text'/></div>
+            </td></tr>
+        </table>
+    </body>
+</html>

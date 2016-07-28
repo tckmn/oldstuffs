@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.c {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.c, body {
+    -webkit-transition: all 3s;
+}
+
+body {
+overflow: hidden;
+}

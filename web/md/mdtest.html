@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>Markdown parsing test</title>
+        <script src='md.js'></script>
+        <script>
+            window.onload = function() {
+                document.getElementById('result').innerHTML = Markdown.parse('*italics* and **bold** are fun and ***both*** and **bold with *italics* in it** and *italic with **bold***')
+            }
+        </script>
+    </head>
+    <body>
+        <p id='result'></p>
+    </body>
+</html>

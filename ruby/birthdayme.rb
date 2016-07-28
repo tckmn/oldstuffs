@@ -1,0 +1,1 @@
+puts'Happy birthday to me!'if(Time.new-File.atime($0))%31536000<86400

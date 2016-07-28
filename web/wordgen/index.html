@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset='utf-8'/>
+        <title>Word Generator</title>
+        <script type="text/javascript">
+            // GUI version
+            window.onload = function() {
+                $('b',1).onclick=function(){_='';c=5;while(c-->0){_+=$('bcdfghjklmnpqrstvwxz')+$('aeiouy')};$('r',1).innerHTML=_};function $(x,b){return(b?document.getElementById(x):(b=x.split(''))[Math.random()*b.length|0])}
+            }
+
+            // alert version
+            _='';c=5;while(c-->0){_+=$('bcdfghjklmnpqrstvwxz')+$('aeiouy')};alert(_);function $(x){return(b=x.split(''))[Math.random()*b.length|0]}
+        </script>
+    </head>
+    <body>
+        <button id='b' type='button'>Generate Word</button>
+        <div id='r'></div>
+    </body>
+</html>

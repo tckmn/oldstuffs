@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<title>Dancing Wizard</title>
+		<script type='text/javascript'>
+		var history,
+			colors = ['red', 'green', 'blue']
+
+		window.onload = function() {
+			history = document.getElementById('history')
+
+			var inputText = document.getElementById('input-text')
+			document.getElementById('input-form').onsubmit = function(e) {
+				e.preventDefault()
+				onInput(inputText.value)
+				inputText.value = ''
+			}
+		}
+
+		function onInput(text) {
+			console.log(text)
+			appendHistory(text)
+		}
+
+		function appendHistory(text) {
+			var histEl = document.createElement('div')
+
+			for (var i = 0; i < text.length; i++) {
+				var coloredEl = document.createElement('span')
+				coloredEl.style.color = colors[i % colors.length]
+				coloredEl.innerText = text[i]
+				histEl.appendChild(coloredEl)
+			}
+
+			history.appendChild(histEl)
+		}
+		</script>
+		<style type='text/css'>
+		html, body, #container {
+			height: 100%;
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+		#container {
+			max-width: 1024px;
+			margin: 0px auto;
+			background-color: #EEE;
+			font-family: monospace;
+		}
+
+		#input-submit {
+			float: right;
+			font-family: inherit;
+		}
+		#input-text-wrapper {
+			overflow: hidden;
+			padding-right: 5px;
+		}
+		#input-text {
+			width: 100%;
+			font-family: inherit;
+		}
+
+		#input-form {
+			padding-bottom: 1px;
+			border-bottom: 1px dotted black;
+		}
+
+		#history {
+			height: 100%;
+			position: absolute;
+			bottom: 0px;
+			overflow: scroll;
+		}
+		</style>
+	</head>
+	<body>
+		<div id='container'>
+			<form id='input-form'>
+				<input id='input-submit' type='submit' />
+				<div id='input-text-wrapper'><input id='input-text' type='text' value='' autocomplete='off' /></div>
+			</form>
+			<div id='history'>
+			</div>
+		</div>
+	</body>
+</html>

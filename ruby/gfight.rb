@@ -1,0 +1,2 @@
+require'open-uri'
+$><<gets.chop.split(?|).map{|x|[(open("http://www.google.com/search?nord=1&q=#{URI.escape x}&nfpr=1").read.match(/s">(About )?([\d,]+) result/)||[?0])[-1].split(?,).join.to_i,x]}.max[1]

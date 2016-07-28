@@ -1,0 +1,1 @@
+[["Welcome to the JavaScript code game! Your goal is to get the code to work without any errors.\nHere is a simple start. I have defined an 'assume' function that will make an error if the statement after it is false.\nGood luck!", "var a = @\na == 5"], ["Yay! Level 2.", "var a = @\na + 5 == 8"]]

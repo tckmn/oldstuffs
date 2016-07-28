@@ -1,0 +1,1 @@
+def g;return(rand*10).to_i;end;c=w=0;a='correct';b='wrong';while 1 do x=g;y=g;o='+-*'.split('').sample;print x.to_s+o+y.to_s+'=';if(gets.chomp.to_i==eval(x.to_s+o+y.to_s))then puts a+'!';c+=1;else puts b+'!';w+=1;end;puts'Score: '+c.to_s+' '+a+' | '+w.to_s+' '+b;puts;end

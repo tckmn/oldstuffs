@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset='utf-8'/>
+        <title>OddLlama's D&D Beginner Character Builder</title>
+        <script src='http://code.jquery.com/jquery-1.10.2.min.js'></script>
+        <script>
+            var HUMAN = 1, ELF = 2, DWARF = 3, HALFLING = 4
+            var MALE = 1, FEMALE = 2
+            var FIGHTER = 1, WIZARD = 2, ROGUE = 3, CLERIC = 4
+            var race, gender, klass
+            var statsVisible = false
+            function updateRace(r) {
+                race = r
+                updateStats()
+            }
+            function updateGender(g) {
+                gender = g
+                updateStats()
+            }
+            function updateClass(c) {
+                klass = c
+                updateStats()
+            }
+            function updateStats() {
+                if (!statsVisible && race && gender && klass) showStats()
+                switch(klass) {
+                    case FIGHTER:
+                        var str = $('#rowStrength').children()
+                        str.eq(1).text('18')
+                        break
+                }
+            }
+            function showStats() {
+                $('#statsContainer').css('display', 'block')
+                statsVisible = true
+            }
+        </script>
+        <style>
+            #container {
+                max-width: 800px;
+                width: 100%;
+                margin: 0px auto;
+            }
+            .skill {
+                font-weight: bold;
+            }
+            table td,table th {
+                border: 1px solid black;
+                padding: 5px;
+            }
+            table {
+                border-collapse: collapse;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='container'>
+            <h1>Welcome!</h1>
+            <p>Welcome to OddLlama's Dungeons and Dragons Beginner Character Builder!</p>
+            <p>In this character builder, I have consolidated all of the character information from the famous Red Box's Player's Book into one, simple, self-contained webpage. This way, instead of digging through the book and skipping around in a (usually vain) attempt to locate the information you need to build your character, you can simply choose a few options and your character will be automagically<sup><a id='footnoteReference1' href='#footnote1'>1</a></sup> built for you!</p>
+            <p>This character creator is completely open-source, which means that you can use, sell, or do whatever you want with the source code. If you feel that you have to do something in return, you can always link to <a href='http://github.com/OddLlama'>my GitHub page</a> if you would like, but there's no need to. I'll just make this for the programming/D&D community. :) The code is very well commented and documented, so if you're learning JavaScript you can always view the source of this page and learn from the code.</p>
+            <h1>The Character Builder</h1>
+            <h2>Basic building blocks</h2>
+            <p>Here are the things that define your character. You will set up the basic structure of what your character looks and acts like, and you will also give your character some personality.</p>
+            <p>What is your name?</p>
+            <input type='text' id='inputName'/>
+            <p>Choose a race:</p>
+            <input type='radio' id='inputRaceHuman' name='inputRace' onchange='updateRace(HUMAN)'/> <label for='inputRaceHuman'>Human</label>
+            <input type='radio' id='inputRaceElf' name='inputRace' onchange='updateRace(ELF)'/> <label for='inputRaceElf'>Elf</label>
+            <input type='radio' id='inputRaceDwarf' name='inputRace' onchange='updateRace(DWARF)'/> <label for='inputRaceDwarf'>Dwarf</label>
+            <input type='radio' id='inputRaceHalfling' name='inputRace' onchange='updateRace(HALFLING)'/> <label for='inputRaceHalfling'>Halfling</label>
+            <p>Choose a gender:</p>
+            <input type='radio' id='inputGenderMale' name='inputGender' onchange='updateGender(MALE)'/> <label for='inputGenderMale'>Male</label>
+            <input type='radio' id='inputGenderFemale' name='inputGender' onchange='updateGender(FEMALE)'/> <label for='inputGenderFemale'>Female</label>
+            <p>Do you have any special notes about what your character looks like? (For example: eye color, hair, personality, etc.)</p>
+            <textarea id='inputNotes'></textarea>
+            <p>Finally, what is your class?</p>
+            <input type='radio' id='inputClassFighter' name='inputClass' onchange='updateClass(FIGHTER)'/> <label for='inputClassFighter'>Fighter</label>
+            <input type='radio' id='inputClassWizard' name='inputClass' onchange='updateClass(WIZARD)'/> <label for='inputClassWizard'>Wizard</label>
+            <input type='radio' id='inputClassRogue' name='inputClass' onchange='updateClass(ROGUE)'/> <label for='inputClassRogue'>Rogue</label>
+            <input type='radio' id='inputClassCleric' name='inputClass' onchange='updateClass(CLERIC)'/> <label for='inputClassCleric'>Cleric</label>
+            <div id='statsContainer' style='display: none'>
+                <h2>Your stats</h2>
+                <p>With this data, I've computed most of your stats, but you still have a few choices to make.</p>
+                <h3>Abilities and Skills</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Value</th>
+                            <th>Mod</th>
+                            <th>Check</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id='rowStrength'>
+                            <td class='skill'>Strength</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id='rowAthletics'>
+                            <td>Athletics</td>
+                            <td>Untrained</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id='rowConstitution'>
+                            <td class='skill'>Constitution</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id='rowEndurance'>
+                            <td>Endurance</td>
+                            <td>Untrained</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id='rowDexterity'>
+                            <td class='skill'>Dexterity</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Powers and Feats</h3>
+                <ul></ul>
+                <h3>Combat Statistics</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Initiative</td>
+                            <td id='valInitiative'></td>
+                        </tr>
+                        <tr>
+                            <td>Speed</td>
+                            <td id='valSpeed'></td>
+                        </tr>
+                        <tr>
+                            <td>Armor Class (AC)</td>
+                            <td id='valAC'></td>
+                        </tr>
+                        <tr>
+                            <td>Fortitude</td>
+                            <td id='valFortitude'></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Equipment and Magic Items</h3>
+                <ul></ul>
+            </div>
+            <p><sup id='footnote1'>1: Yes, automagically. It's an informal but fun term to use. :) <a href='#footnoteReference1'>back</a></sup></p>
+        </div>
+    </body>
+</html>

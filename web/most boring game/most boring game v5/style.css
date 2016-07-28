@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+button {
+  font-size: 1.3em;
+}
+
+#atkbtn, #dfndbtn, #lbtn, #rbtn, #sbtn, #bbtn {
+  width: 50%;
+  display: none;
+}
+
+#atkbtn, #lbtn, #sbtn {
+  float: left;
+}
+
+#okbtn {
+  width: 100%;
+}
+
+#n {
+  border: 0.1em solid #000000;
+  background-color: #DDDDDD;
+  font-size: 2em;
+}
+
+#m {
+  font-size: 1.5em;
+  border: 0.3em groove #00FF00;
+  background-color: #AAFFAA;
+}
+
+#n, #m {
+  padding: 0.1em;
+  margin: 0em;
+  display: block;
+}
+
+#cont {
+  text-align: center;
+  background-color: #CCCCCC;
+  border: 0.6em groove #AAAAAA;
+  padding: 0.3em;
+}

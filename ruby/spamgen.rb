@@ -1,0 +1,1 @@
+$><<(g=gets).gsub(/\[(.*?)\]/){$1.split(?/).sample}+"say'#{g.chop}'=~s|\\[(.*?)\\]|@a=split'/',$1;$a[rand@a]|reg;say'import re,random;print re.sub(\"\\[(.*?)\\]\",lambda m:random.choice(m.group(1).split(\"/\")),\"#{g.chop}\")'"

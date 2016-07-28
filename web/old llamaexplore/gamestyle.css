@@ -1,0 +1,10 @@
+table {border: 1px solid black; background-image: url('bg.png');}
+img {display: block;}
+td {padding: 0px;}
+.zoom {display: none; position: fixed; border: 1px solid black; background-image: url("zoombg.png");}
+.zoomimg {display: block; margin: auto;}
+.invisible {display: none;}
+::-moz-selection,::selection {
+    background-color:transparent;
+    color:#000;
+}

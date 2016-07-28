@@ -1,0 +1,1 @@
+$><<"puts ''<<"+gets.chop.each_codepoint.to_a*'<<'+"<<' '+gets"

@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+#test {
+background-color: #000;
+opacity: 0;
+width: 0px;
+text-align: center;
+-webkit-transition: opacity 5s, width 3s, -webkit-transform 2s, box-shadow 6s, font-size 3s, background-color 4s;
+font-size: 0px;
+font-weight: bold;
+}

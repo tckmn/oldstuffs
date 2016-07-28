@@ -1,0 +1,122 @@
+<html>
+	<head>
+		<title>Sudoku Generator</title>
+		<script>
+		window.onload = function() {
+
+		var grid = [];
+		for (var i = 0; i < 9; i++) {
+			var newRow = [];
+			for (var j = 0; j < 9; j++) {
+				newRow.push({
+					n: 0,
+					attempted: []
+				});
+			}
+			grid.push(newRow);
+		}
+
+		function gridOk(grid) {
+			// check rows and columns
+			for (var x = 0; x < 9; x++) {
+				var foundX = {}, foundY = {};
+				for (var y = 0; y < 9; y++) {
+					var xN = grid[x][y].n;
+					var yN = grid[y][x].n;
+
+					// is there a duplicate?
+					if (foundX[xN] || foundY[yN]) return false;
+
+					if (xN) foundX[xN] = true;
+					if (yN) foundY[yN] = true;
+				}
+			}
+
+			// check boxes
+			for (var boxX = 0; boxX < 3; boxX++) {
+				for (var boxY = 0; boxY < 3; boxY++) {
+					var boxFound = {};
+					for (var offsetX = 0; offsetX < 3; offsetX++) {
+						for (var offsetY = 0; offsetY < 3; offsetY++) {
+							var n = grid[boxX + offsetX][boxY + offsetY].n;
+
+							// is there a duplicate?
+							if (boxFound[n]) return false;
+
+							if (grid[n]) boxFound[grid[n]] = true;
+						}
+					}
+				}
+			}
+
+			// all checks passed; we're done
+			return true;
+		}
+
+		var gridEl = document.getElementById('grid');
+		function renderGrid(grid) {
+			var gridStr = '';
+			for (var x = 0; x < 9; x++) {
+				for (var y = 0; y < 9; y++) {
+					gridStr += (grid[x][y].n || ' ') + ' ';
+				}
+				gridStr += '\n';
+			}
+			gridEl.innerText = gridStr;
+		}
+
+		// start filling in boxes!
+		var gridI = 0;
+
+		var intr = setInterval(function() {
+			var xy = iToXY(gridI), x = xy[0], y = xy[1];
+			var breakAndRender = false;
+			while (!breakAndRender) {
+				if (grid[x][y].attempted.length >= 9) {
+					// attempted all numbers. PANIC! ABORT ABORT
+
+					// erase all evidence
+					grid[x][y].n = 0;
+					grid[x][y].attempted = [];
+
+					// run away
+					gridI--;
+					breakAndRender = true;
+				} else {
+					// keep generating numbers until one works. I don't care about efficiency right now
+					var n = rn(); // JS y u no do while
+					while(grid[x][y].attempted.indexOf(n) !== -1) n = rn();
+					grid[x][y].attempted.push(n);
+					grid[x][y].n = n;
+
+					if (gridOk(grid)) {
+						// it worked! on to the next square.
+						gridI++;
+						breakAndRender = true;
+					} else {
+						// oh no, we made a conflict.
+						// have to try again
+						gridI += 0; // don't do anything
+					}
+				}
+				if (gridI >= 81) {
+					breakAndRender = true;
+					clearInterval(intr);
+				}
+			}
+			renderGrid(grid);
+		}, 50);
+
+		// YAAAY! we're done. show the grid
+		renderGrid(grid);
+
+		function rn() { return Math.floor(Math.random() * 9 + 1); }
+		function iToXY(i) { return [i % 9, Math.floor(i / 9)] }
+
+		}
+		</script>
+	</head>
+	<body>
+		<pre id='grid'></pre>
+	</body>
+</html>

@@ -1,0 +1,154 @@
+<html>
+    <head>
+        <title>Terrain Generation</title>
+        <script type="text/javascript" src="seedrandom.js"></script>
+        <script type="text/javascript">
+            //////////////////////////////////////////////////////////////////////////
+            //           WELCOME TO THE SOURCE CODE FOR TERRAIN GENERATION!         //
+            //     YOU MAY USE THIS CODE WHEREVER YOU WANT AS LONG AS YOU FOLLOW    //
+            // THE ATTRIBUTION RULES AT HTTP://WWW.ODDLLAMA.CU.CC/ATTRIBUTION.HTML. //
+            //                               ENJOY!                                 //
+            //////////////////////////////////////////////////////////////////////////
+
+            // Credits for seedrandom function: http://davidbau.com/archives/2010/01/30/random_seeds_coded_hints_and_quintillions.html
+
+            var terImg, ct, canvas, imgdat, tdata, toAverage;
+            //variables that user can change
+            var size, initHeight, rndRange, smoothSpeed, seed, waterHeight;
+            //tmp variables
+            var oldi, oldi2, pointDistance, diamondArray, addedPoints;
+
+            function begin() {
+                terImg = document.getElementById('terimg');
+                canvas = document.getElementById('cnvs');
+                ct = canvas.getContext('2d');
+                genTerrainInit();
+                imgdat = ct.getImageData(0,0,size,size);
+            }
+
+            function genTerrainInit() {
+                //Variables
+                size = Math.pow(2, 9) + 1; //MUST be a power of 2 plus 1!
+                initHeight = Math.floor(255/2)+50;
+                rndRange = 100;
+                smoothSpeed = 0.8;
+                seed = '';
+                waterHeight = 170;
+
+                //Seeded random!
+                if (seed != '') Math.seedrandom(seed);
+                else Math.seedrandom();
+
+                refreshSize();
+
+                //Generate corners
+                tdata[0][0] = initHeight;
+                tdata[size-1][0] = initHeight;
+                tdata[0][size-1] = initHeight;
+                tdata[size-1][size-1] = initHeight;
+            }
+
+            function stepTerrainGen() {
+                //The square step - for each square, take the center point and set it to the average of its corners plus a random amount
+                oldi = 0;
+                for (var i = 1; i < size; i ++) {
+                    if (tdata[0][i] != null) {
+                        oldi2 = 0;
+                        for (var i2 = 1; i2 < size; i2 ++) {
+                            if (tdata[i2][i] != null) {
+                                pointDistance = (i - oldi)/2;
+                                tdata[(oldi2 + i2)/2][(oldi + i)/2] = ((tdata[oldi2][oldi] + tdata[i2][oldi] + tdata[oldi2][i] + tdata[i2][i])/4)
+                                    + Math.floor(Math.random() * rndRange - (rndRange/2.0));
+                                toAverage[(oldi2 + i2)/2][oldi] = true;
+                                toAverage[oldi2][(oldi + i)/2] = true;
+                                toAverage[(oldi2 + i2)/2][i] = true;
+                                toAverage[i2][(oldi + i)/2] = true;
+                                oldi2 = i2;
+                            }
+                        }
+                        oldi = i;
+                    }
+                }
+
+                //The diamond step - same as the square step but with newly formed diamonds
+                for (var i = 0; i < size; i ++) {
+                    for (var i2 = 0; i2 < size; i2 ++) {
+                        if (toAverage[i][i2]) {
+                            diamondArray = [];
+                            if (i-pointDistance >= 0) diamondArray = diamondArray.concat(tdata[i-pointDistance][i2]);
+                            if (i+pointDistance < size) diamondArray = diamondArray.concat(tdata[i+pointDistance][i2]);
+                            if (i2-pointDistance >= 0) diamondArray = diamondArray.concat(tdata[i][i2-pointDistance]);
+                            if (i2+pointDistance < size) diamondArray = diamondArray.concat(tdata[i][i2+pointDistance]);
+                            addedPoints = 0;
+                            for (var i3 = 0; i3 < diamondArray.length; i3 ++) addedPoints += diamondArray[i3];
+                            tdata[i][i2] = addedPoints/diamondArray.length + Math.floor(Math.random() * rndRange - (rndRange/2.0));
+                        }
+                    }
+                }
+                rndRange *= smoothSpeed;
+                resetToAverage();
+            }
+
+            function updateCanvas() {
+                for (var i = 0; i < size; i ++) {
+                    for (var i2 = 0; i2 < size; i2 ++) {
+                        for (var i3 = 0; i3 < 4; i3 ++) {
+                            for (var i4 = 0; i4 < 4; i4 ++) {
+                                imgdat.data[size*(i*4+i3) + (i2*4+i4)] = tdata[i][i2];
+                            }
+                        }
+                    }
+                }
+                for (var i = 3; i < imgdat.data.length; i += 4) {
+                    imgdat.data[i] = 255;
+                }
+                for (var i = 2; i < imgdat.data.length; i += 4) {
+                    if (imgdat.data[i] < waterHeight) {
+                        imgdat.data[i] = 255;
+                    }
+                }
+                ct.putImageData(imgdat, 0, 0);
+            }
+
+            function refreshSize() {
+                canvas.setAttribute('width', size);
+                canvas.setAttribute('height', size);
+                tdata = new Array(size);
+                toAverage = new Array(size);
+                for (var i = 0; i < size; i ++) {
+                    tdata[i] = new Array(size);
+                    toAverage[i] = new Array(size);
+                    for (var i2 = 0; i2 < size; i2 ++) {
+                        tdata[i][i2] = null;
+                        toAverage[i][i2] = false;
+                    }
+                }
+            }
+
+            function resetToAverage() {
+                for (var i = 0; i < size; i ++) {
+                    for (var i2 = 0; i2 < size; i2 ++) {
+                        toAverage[i][i2] = false;
+                    }
+                }
+            }
+
+            //Basically better version of window.onload
+            var readyStateCheckInterval = setInterval(function() {
+                if (document.readyState === "complete") {
+                    begin();
+                    clearInterval(readyStateCheckInterval);
+                }
+            }, 10);
+        </script>
+    </head>
+    <body>
+        <!--[if lte IE 8]>
+        <p>Terrain generation does not support Internet Explorer 8 or lower. Please update your browser or use a different browser, like Firefox or Chrome.</p>
+        <![endif]-->
+        <canvas id='cnvs' width=200 height=200 style="border: 1px solid black;"></canvas><br/>
+        <button type="button" onclick="genTerrainInit();while(true){try{stepTerrainGen();}catch(err){updateCanvas();break;}}">Generate new terrain</button><br/>
+        <button type="button" onclick="terImg.setAttribute('src', canvas.toDataURL('image/png'));">To image</button><br/>
+        <img id="terimg"/>
+    </body>
+</html>

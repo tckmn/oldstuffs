@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8' />
+		<title>oque.js - demo</title>
+		<script type='text/javascript' src='oque.js'></script>
+		<link rel='stylesheet' type='text/css' href='oque.css' />
+		<script type='text/javascript'>
+			window.onload = function() {
+				var container = document.getElementById('oque')
+				var oque = Oque.init({
+					container: container,
+					questions: [
+						Oque.q('What is 1+1?', ['2', '3', '1', 'NaN']),
+						Oque.q('What is not 1+1 at all no indeed it is not wow I can\'t believe how not 1+1 this one is?', ['3', '2', '4-2'])
+					]
+				}).start(function(finalScore) {
+					while (container.childNodes.length) container.removeChild(container.firstChild)
+					container.appendChild(document.createTextNode('Your final score is ' + finalScore))
+				})
+			}
+		</script>
+		<style type='text/css'>
+			#oque {
+				width: 90%;
+				height: 100%;
+				margin: 0px auto;
+				background-color: #EEE;
+				padding: 0px 20px;
+			}
+
+			html, body { height: 100%; margin: 0; } /* so that the oque container can have 100% height too */
+		</style>
+	</head>
+	<body>
+		<div id='oque'></div>
+	</body>
+</html>

@@ -1,0 +1,1 @@
+Shoes.app{star(points:5).move 99,99}

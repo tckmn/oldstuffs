@@ -1,0 +1,125 @@
+<html>
+    <head>
+        <script type='text/javascript' src='http://code.jquery.com/jquery-1.10.2.min.js'></script>
+        <script type='text/javascript' src='slideshow.js'></script>
+        <script type='text/javascript'>
+            $(function() {
+                var sld = $('#wrap').slideshow(), updateToc
+                $('#back').click(function() {
+                    sld.prev()
+                    if (!sld.hasPrev()) this.disabled = true
+                    $('#forward').prop('disabled', false)
+                    updateToc()
+                }).prop('disabled', !sld.hasPrev)
+                $('#forward').click(function() {
+                    sld.next()
+                    if (!sld.hasNext()) this.disabled = true
+                    $('#back').prop('disabled', false)
+                    updateToc()
+                }).prop('disabled', !sld.hasNext)
+                $('#gotoPage').click(function() {
+                    sld.gotoSlide(parseInt($('#pageNum').val(), 10) - 1)
+                    updateToc()
+                })
+                var toc = sld.toc(function(i) {
+                    sld.gotoSlide(i)
+                    updateToc()
+                }), tocLinks = toc.find('>a'), tocLinkCount = 3
+                tocLinks.css({
+                    display: 'block'
+                })
+                tocLinks.hide()
+                toc.css({
+                    border: '1px solid black',
+                    padding: '5px',
+                    margin: '3px'
+                }).insertBefore($('#wrap')).before($('<div>').css({
+                    fontSize: '0.9em',
+                    color: '#555'
+                }).text('Table of Contents'))
+                ;(updateToc = function() {
+                    tocLinks.hide('slow')
+                    for (var i = Math.max(0, sld.slideNum() - tocLinkCount); i < Math.min(sld.slideCount(), sld.slideNum() + tocLinkCount + 1); i ++) {
+                        tocLinks.eq(i).stop().show('slow').css({
+                            color: '#' + Array(4).join(((Math.abs(sld.slideNum() - i) / tocLinkCount) * 13 | 0).toString(16)),
+                            fontWeight: 'normal',
+                            fontSize: '1em'
+                        })
+                    }
+                    tocLinks.eq(sld.slideNum()).css({
+                        fontWeight: 'bold',
+                        fontSize: '1.1em'
+                    })
+                })()
+                $('#wrap>div').each(function() {
+                    $(this).prepend($('<h1>').text($(this).data('title')))
+                })
+            })
+        </script>
+        <style type='text/css'>
+            #btns {
+                text-align: center;
+                background-color: #EEE;
+                position: fixed;
+                width: 100%;
+                left: 0px;
+            }
+            #btnwrap {
+                margin: 0px auto;
+            }
+            #btnwrap button {
+                font-size: 2em;
+            }
+            #gotoPage {
+                font-size: 1em !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div id='btns'>
+            <div id='btnwrap'>
+                <button id='back'>&larr;</button>
+                <span style='padding:1em;'></span>
+                <button id='gotoPage'>go to page </button><input type='text' id='pageNum' />
+                <span style='padding:1em;'></span>
+                <button id='forward'>&rarr;</button>
+            </div>
+        </div>
+        <div style='padding:2em;'></div>
+        <div id='wrap'>
+            <div data-title='Welcome!'>
+                Welcome to OddLlama's HTML, CSS, and JavaScript tutorial!<br/>
+                In this tutorial, you can learn about how to create websites, design layouts, create interactive web applications, program games and utilities, and more!<br/>
+                I am trying to keep all the boring stuff to a minimum. You can be assured that there will be no boring "What is HTML?" or History of CSS." sections or anything like that.<br/>
+                So, are you ready to get started? Go to the next slide to begin your learning!
+            </div>
+            <div data-title=''>
+                this is slide 2
+            </div>
+            <div data-title='Slide 3'>
+                and the last third slide
+            </div>
+            <div data-title='Slide 4'>
+                wait no, there's a fourth slide!
+            </div>
+            <div data-title='New title'>
+                the fifth slide has a new title :D
+            </div>
+            <div data-title='New title 2'>
+                I'm so creative
+            </div>
+            <div data-title='New title 3'>
+                wow these titles are <i>so</i> creative
+            </div>
+            <div data-title='Even creative-er title'>
+                yay! <b>CREATIVENESS</b>
+            </div>
+            <div data-title='ooooh a button'>
+                <button>Click me I do nothing</button>
+            </div>
+            <div data-title='ok bye'>
+                slideshow over
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,1 @@
+$*.combination(3).map{|c|puts c*?,if (0..3).all?{|i|c.map{|x|x[i]}.uniq.size!=2}}

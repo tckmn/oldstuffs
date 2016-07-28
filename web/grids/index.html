@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset='utf-8'/>
+        <title>Grid testing</title>
+        <style type='text/css'>
+            html,body { margin: 0px; }
+            .navblock {
+                display: block;
+            }
+
+            #main,#topbar { width: 740px; }
+            #main-alt,#topbar-alt { width: 510px; }
+            #main-fluid,#topbar-fluid { width: 100%; }
+
+            #sidebar { width: 200px; float: left; }
+            #main { float: right; }
+
+            #main,#main-alt,#main-fluid,#topbar,#topbar-alt,#topbar-fluid,#sidebar {
+                padding: 5px;
+                display: none;
+            }
+
+            /* =========== RESPONSIVE DESIGN =========== */
+            /* 960px+: big phones in landscape, tablets in landscape, desktop */
+            #main,#sidebar { display: block; }
+            #container {
+                width: 960px;
+                margin: 0px auto;
+                border: 1px solid black;
+            }
+            /* tablets, big phones in landscape
+               moving sidebar to the top
+               same content                     */
+            @media (max-width: 960px) {
+                #sidebar { display: none; }
+                #topbar { display: block; }
+                #main { float: none; }
+                #container { width: 760px; }
+            }
+            /* big phones, small tablets, small phones in landscape
+               alternate content and top bar                        */
+            @media (max-width: 760px) {
+                #main-alt,#topbar-alt { display: block; }
+                #main,#topbar { display: none; }
+                #container { width: 520px; }
+            }
+            /* small phones, tiny phones in landscape (iPhone)
+               fluid width design                              */
+            @media (max-width: 520px) {
+                #container { width: 100%; }
+                #topbar-alt,#main-alt { display: none; }
+                #topbar-fluid,#main-fluid { display: block; }
+            }
+        </style>
+    </head>
+    <body>
+        <div id='container'>
+            <div id='topbar'>
+                top bar
+            </div>
+            <div id='topbar-alt'>
+                alternate top bar
+            </div>
+            <div id='topbar-fluid'>
+                fluid top bar
+            </div>
+            <div id='sidebar'>
+                <img src='logo.png' alt='OddLlama Productions'/><hr/>
+                <div id='account'>
+                    You are not logged in.<br/>
+                    <a href=''>Log In</a> | <a href=''>Sign Up</a>
+                </div><hr/>
+                <div id='navigation'>
+                    <a class='navblock' href=''>Home</a>
+                    <a class='navblock' href=''>Games</a>
+                </div>
+            </div>
+            <div id='main'>
+                content
+            </div>
+            <div id='main-alt'>
+                alternate content
+            </div>
+            <div id='main-fluid'>
+                fluid content
+            </div>
+            <div style='clear: both'></div> <!-- clearfix -->
+        </div>
+        <br/>
+    </body>
+</html>

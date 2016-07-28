@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Gallery</title>
+</head>
+<body>
+<noscript>
+<style>#restOfPage{display:none;}</style>
+<p>Gallery requires Javascript. Click <a href="http://enable-javascript.com/" target="_blank">here</a> to learn how to enable it.</p>
+</noscript>
+<div id="restOfPage">
+<script src="images.js"></script>
+<table id="previmg" style="width: 8%; float: left; height: 100%; background-color: #DADADA; text-align: center;"><tr><td>&lt;</td></tr><tr><td>Previous Image</td></tr><tr><td>&lt;</td></tr></table>
+<div id="imgcont" style="width: 84%; height: 100%; float: left; text-align: center;"><img id="mainimage" style="height: 100%;" src="http://www.gymheroapp.com/workouts/img/spinner.gif"/></div>
+<table id="nextimg" style="width: 8%; float: left; height: 100%; background-color: #DADADA; text-align: center;"><tr><td>&gt;</td></tr><tr><td>Next Image</td></tr><tr><td>&gt;</td></tr></table>
+<script>
+var index = 0;
+var mainimg = document.getElementById('mainimage');
+var imgcont = document.getElementById('imgcont');
+function updateImage() {
+mainimg.setAttribute('src', images[index])
+var newImg = new Image()
+newImg.src = images[index]
+newImg.onload = function() {
+var ratio = newImg.width / newImg.height
+var pratio = imgcont.offsetWidth / imgcont.offsetHeight
+if (ratio < pratio) {
+mainimg.setAttribute('style', 'height: 100%;')
+} else {
+mainimg.setAttribute('style', 'width: 100%;')
+}
+}
+}
+document.getElementById('previmg').addEventListener('click',
+function(e) {
+index --
+if (index < 0) index = images.length - 1
+updateImage()
+},
+false)
+document.getElementById('nextimg').addEventListener('click',
+function(e) {
+index ++
+if (index >= images.length) index = 0
+updateImage()
+},
+false)
+updateImage()
+</script>
+</div>
+</body>
+</html>

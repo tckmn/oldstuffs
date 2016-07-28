@@ -1,0 +1,2 @@
+csv = open('http://data.stackexchange.com/codegolf/csv/214556').read
+puts csv
