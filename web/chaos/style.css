@@ -8,6 +8,7 @@
 
 .c, body {
     -webkit-transition: all 3s;
+    transition: all 3s;
 }
 
 body {
